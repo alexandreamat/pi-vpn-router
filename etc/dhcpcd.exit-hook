@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ ! "$interface" = "eth0" ]
+then
+    exit 0
+fi
+
+if [ ! "$reason" = "BOUND" ]
+then
+    exit 0
+fi
+
+if [ ! "$if_up" = "true" ]
+then
+    exit 0
+fi
+
+server_address_tw=$(host tw.huajicloud.net | awk '/has address/ { print $4 ; exit }')
+server_address_kr=$(host kr.huajicloud.net | awk '/has address/ { print $4 ; exit }')
+echo "Adding route for $server_address_tw $new_routers" >> /tmp/dhcpcd-exit-hook.log
+echo "Adding route for $server_address_kr $new_routers" >> /tmp/dhcpcd-exit-hook.log
+ip route add $server_address_tw via $new_routers metric 50
+ip route add $server_address_kr via $new_routers metric 50

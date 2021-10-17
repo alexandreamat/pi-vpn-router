@@ -1,0 +1,16 @@
+[Unit]
+Description=tun2socks
+StartLimitIntervalSec=0
+After=udpgw.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+StandardError=journal
+ExecStart=badvpn-tun2socks --tundev tun0 --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:1080 --socks5-udp
+# --udpgw-remote-server-addr 127.0.0.1:7300 --loglevel 5
+
+[Install]
+WantedBy=multi-user.target
