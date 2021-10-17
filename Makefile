@@ -10,6 +10,9 @@ dump-tun0:
 dump-eth1:
 	$(SSH_WRAPPER) sudo tcpdump --interface=eth1 port not 22
 
+restart-dnsmasq:
+	$(SSH_WRAPPER) sudo systemctl restart dnsmasq.service
+
 curl-socks:
 	$(SSH_WRAPPER) curl --socks5-hostname 127.0.0.1:1080 https://www.google.com
 
